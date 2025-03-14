@@ -18,15 +18,11 @@ func main() {
     fmt.Println("Server is running on port 8080...")
 
     go func() {
-        fmt.Println("Will Catch SIGTERM")
         c := make(chan os.Signal, 1)
         signal.Notify(c, syscall.SIGTERM)
         <-c
-        t := time.NewTicker(time.Second)
-        for {
-            fmt.Println("Caught SIGTERM")
-            <-t.C
-        }
+        fmt.Println("Caught SIGTERM")
+        os.Exit(0)
     }()
 
     http.ListenAndServe(":8080", nil)
